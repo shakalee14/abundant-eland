@@ -1,0 +1,11 @@
+navbar.navbar
+  if signedIn
+    a.navbar(href='/api/logout') Logout
+    p.navbar You are signed in as #{user_name}
+  else
+
+    form(method='post' action='/api/login')
+      label Sign In?
+      input(type='text', placeholder='user name' name='user_name')
+      input(type='password', placeholder='password')
+      input(type='submit' value='login')
