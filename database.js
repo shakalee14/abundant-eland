@@ -40,6 +40,20 @@ const updateCustomer = attributes => {
   return db.one( sql, variables )
 }
 
+const deleteCustomer = attributes => {
+  const sql = `
+    UPDATE
+      customers
+    SET
+      is_active=false
+    WHERE
+      id=$1
+    RETURNING
+      *
+  `
+  return db.one( sql, attributes )
+}
+
 const getCustomerByUserName = attributes => {
   const sql = `
     SELECT
@@ -113,6 +127,20 @@ const createIngredient = attributes => {
    return db.one( sql, variables );
 }
 
+const deleteIngredient = attributes => {
+  const sql = `
+    UPDATE
+      ingredients
+    SET
+      is_active=false
+    WHERE
+      id=$1
+    RETURNING
+      *
+  `
+  return db.one( sql, attributes )
+}
+
 const updateIngredient = attributes => {
   const sql = `
     UPDATE
@@ -183,6 +211,20 @@ const updateDrink = attributes => {
   return db.one( sql, variables );
 }
 
+const deleteDrink = attributes => {
+  const sql = `
+    UPDATE
+      drinks
+    SET
+      is_active=false
+    WHERE
+      id=$1
+    RETURNING
+      *
+  `
+  return db.one( sql, attributes )
+}
+
 const getAllPizzas = () => {
   const sql = `
     SELECT
@@ -204,6 +246,21 @@ const getMenuPizzas = () => {
   `
   return db.any( sql )
 }
+
+const deletePizza = attributes => {
+  const sql = `
+    UPDATE
+      pizzas
+    SET
+      is_active=false
+    WHERE
+      id=$1
+    RETURNING
+      *
+  `
+  return db.one( sql, attributes )
+}
+
 
 const getPizzaById = attributes => {
   const sql = `
@@ -241,23 +298,42 @@ const getTransactionById = attributes => {
   return db.one( sql, attributes.id )
 }
 
+const deleteTransaction = attributes => {
+  const sql = `
+    UPDATE
+      transactions
+    SET
+      is_active = false
+    WHERE
+      id= $1
+    RETURNING
+      *
+  `
+  return db.one( sql, attributes )
+}
+
 module.exports = {
   createCustomer: createCustomer,
   getCustomerByUserName: getCustomerByUserName,
   getCustomerById: getCustomerById,
   getAllCustomers: getAllCustomers,
   updateCustomer: updateCustomer,
+  deleteCustomer: deleteCustomer,
   getAllIngredients: getAllIngredients,
+  deleteIngredient: deleteIngredient,
   getIngredientById: getIngredientById,
   updateIngredient: updateIngredient,
   createIngredient: createIngredient,
   getAllDrinks: getAllDrinks,
   getDrinkById: getDrinkById,
   updateDrink: updateDrink,
+  deleteDrink: deleteDrink,
   createDrink: createDrink,
   getAllPizzas: getAllPizzas,
   getMenuPizzas: getMenuPizzas,
   getPizzaById: getPizzaById,
+  deletePizza: deletePizza,
   getAllTransactions: getAllTransactions,
-  getTransactionById: getTransactionById
+  getTransactionById: getTransactionById,
+  deleteTransaction: deleteTransaction
 }

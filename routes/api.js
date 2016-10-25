@@ -33,13 +33,13 @@ router.post('/login', function(request, response) {
 
 router.get('/customers', function(request, response){
   db.getAllCustomers()
-    .then( data => {
-      response.status(200).json({
-          status: 'success',
-          data: data,
-          message: 'Returned all Customers'
-      })
+  .then( data => {
+    response.status(200).json({
+        status: 'success',
+        data: data,
+        message: 'Returned all Customers'
     })
+  })
   .catch( error => response.render('error', { error : error }));
 })
 
@@ -55,22 +55,29 @@ router.get('/customers/:id', function(request, response){
   .catch( error => response.render('error', { error : error }));
 })
 
-router.delete('/customers/:id', function(request, response){
-
+router.put('/customers/:id/delete', function(request, response){
+  const id = request.params.id
+  db.deleteCustomer( id )
+  .then( () => {
+    response.status(200).json({
+      status: 'success',
+      message: 'Deleted customer'
+    })
+  })
+  .catch( error => response.render('error', { error : error }));
 })
 
 router.put('/customers/:id', function(request, response){
   const customer = request.body
   customer.id = request.params.id
-
   db.updateCustomer( customer )
-    .then( customer => {
-      response.status(200).json({
-        status: 'success',
-        customer: customer,
-        message: 'Updated customer information'
-      })
+  .then( customer => {
+    response.status(200).json({
+      status: 'success',
+      customer: customer,
+      message: 'Updated customer information'
     })
+  })
   .catch( error => response.render('error', { error : error }));
 })
 
@@ -112,10 +119,10 @@ router.get('/ingredients/:id', function(request, response){
 
 router.post('/ingredients', function(request, response){
   db.createIngredient( request.body )
-    .then( () => {
-      response.status(202).json({
-        status: 'success',
-        message: 'Created a new ingredient'
+  .then( () => {
+    response.status(202).json({
+      status: 'success',
+      message: 'Created a new ingredient'
     })
   })
   .catch( error => response.render('error', { error : error }));
@@ -126,29 +133,37 @@ router.put('/ingredients/:id', function(request, response){
   ingredient.id = request.params.id
 
   db.updateIngredient( ingredient )
-    .then( data => {
-      response.status(202).json({
-        status:'success',
-        data: data,
-        message: 'Updated an ingredient'
-      })
+  .then( data => {
+    response.status(202).json({
+      status:'success',
+      data: data,
+      message: 'Updated an ingredient'
     })
+  })
   .catch( error => response.render('error', { error: error }));
 })
 
-router.delete('/ingredients/:id', function(request, response){
-
+router.put('/ingredients/:id/delete', function(request, response){
+  const id = request.params.id
+  db.deleteIngredient( id )
+  .then( () => {
+    response.status(200).json({
+      status: 'success',
+      message: 'Deleted ingredient'
+    })
+  })
+  .catch( error => response.render('error', { error : error }));
 })
 
 router.get('/drinks', function(request, response){
   db.getAllDrinks()
-    .then( data => {
-      response.status(200).json({
-          status: 'success',
-          data: data,
-          message: 'Returned all drinks'
-      })
+  .then( data => {
+    response.status(200).json({
+        status: 'success',
+        data: data,
+        message: 'Returned all drinks'
     })
+  })
   .catch( error => response.render('error', { error : error }));
 })
 
@@ -164,8 +179,16 @@ router.get('/drinks/:id', function(request, response){
   .catch( error => response.render('error', { error : error }));
 })
 
-router.delete('/drinks/:id', function(request, response){
-
+router.put('/drinks/:id/delete', function(request, response){
+  const id = request.params.id
+  db.deleteDrink( id )
+  .then( () => {
+    response.status(200).json({
+      status: 'success',
+      message: 'Deleted drink'
+    })
+  })
+  .catch( error => response.render('error', { error : error }));
 })
 
 router.put('/drinks/:id', function(request, response){
@@ -173,22 +196,22 @@ router.put('/drinks/:id', function(request, response){
   drink.id = request.params.id
 
   db.updateDrink( drink )
-    .then( data => {
-      response.status(202).json({
-        status:'success',
-        data: data,
-        message: 'Updated an drink'
-      })
+  .then( data => {
+    response.status(202).json({
+      status:'success',
+      data: data,
+      message: 'Updated an drink'
     })
+  })
   .catch( error => response.render('error', { error: error }));
 })
 
 router.post('/drinks', function(request, response){
   db.createDrink( request.body )
-    .then( () => {
-      response.status(202).json({
-        status: 'success',
-        message: 'Created a new drink'
+  .then( () => {
+    response.status(202).json({
+      status: 'success',
+      message: 'Created a new drink'
     })
   })
   .catch( error => response.render('error', { error : error }));
@@ -196,25 +219,25 @@ router.post('/drinks', function(request, response){
 
 router.get('/pizzas', function(request, response){
   db.getAllPizzas()
-    .then( data => {
-      response.status(200).json({
-          status: 'success',
-          data: data,
-          message: 'Returned all pizzas'
+  .then( data => {
+    response.status(200).json({
+        status: 'success',
+        data: data,
+        message: 'Returned all pizzas'
       })
-    })
+  })
   .catch( error => response.render('error', { error : error }));
 })
 
 router.get('/pizzas/menu', function(request, response){
   db.getMenuPizzas()
-    .then( data => {
-      response.status(200).json({
-          status: 'success',
-          data: data,
-          message: 'Returned all menu pizzas'
-      })
+  .then( data => {
+    response.status(200).json({
+        status: 'success',
+        data: data,
+        message: 'Returned all menu pizzas'
     })
+  })
   .catch( error => response.render('error', { error : error }));
 })
 
@@ -233,10 +256,10 @@ router.get('/pizzas/:id', function(request, response){
 
 router.post('/pizzas', function(request, response){
   db.createPizza( request.body )
-    .then( () => {
-      response.status(202).json({
-        status: 'success',
-        message: 'Created a new pizza'
+  .then( () => {
+    response.status(202).json({
+      status: 'success',
+      message: 'Created a new pizza'
     })
   })
   .catch( error => response.render('error', { error : error }));
@@ -246,19 +269,27 @@ router.put('/pizzas/:id', function(request, response){
 
 })
 
-router.delete('/pizzas/:id', function(request, response){
-
+router.put('/pizzas/:id/delete', function(request, response){
+  const id = request.params.id
+  db.deletePizza( id )
+  .then( () => {
+    response.status(200).json({
+      status: 'success',
+      message: 'Deleted pizza'
+    })
+  })
+  .catch( error => response.render('error', { error : error }));
 })
 
 router.get('/transactions', function(request, response){
   db.getAllTransactions()
-    .then( data => {
-      response.status(200).json({
-          status: 'success',
-          data: data,
-          message: 'Returned all transactions'
-      })
+  .then( data => {
+    response.status(200).json({
+        status: 'success',
+        data: data,
+        message: 'Returned all transactions'
     })
+  })
   .catch( error => response.render('error', { error : error }));
 })
 
@@ -278,7 +309,6 @@ router.get('/transactions/:id', function(request, response){
   .catch( error => response.render('error', { error : error }));
 })
 
-
 router.put('/transactions/:id', function(request, response){
 
 })
@@ -289,6 +319,18 @@ router.get('/transactions/customers/:id', function(request, response){
 
 router.get('/transactions/:id/customers/:id', function(request, response){
 
+})
+
+router.put('/transactions/:id/delete', function(request, response){
+  db.deleteTransaction( request.params.id )
+  .then( data => {
+    response.status(200).json({
+      status: 'success',
+      data: data,
+      message: 'Deleted transaction'
+    })
+  })
+  .catch( error => response.render('error', { error : error }));  
 })
 
 module.exports = router;
