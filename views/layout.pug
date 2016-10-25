@@ -4,14 +4,6 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
+    block navbar
+      include navbar.pug
     block content
-    if signedIn
-      p You are signed in as username
-      a(href='/api/logout') Logout
-    else
-
-      form(method='post' action='/api/login')
-        label Sign In?
-        input(type='text', placeholder='user name' name='user_name')
-        input(type='password', placeholder='password')
-        input(type='submit' value='login')
