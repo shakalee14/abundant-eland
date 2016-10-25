@@ -18,10 +18,10 @@ const createCustomer = attributes => {
    const variables = [
      attributes.name, attributes.user_name, password, attributes.address, attributes.phone_number, attributes.payment_method ];
 
-   return db.one(sql, variables);
+   return db.one( sql, variables );
 }
 
-const getCustomer = attributes => {
+const getCustomerByUserName = attributes => {
   const sql = `
     SELECT
       *
@@ -31,7 +31,135 @@ const getCustomer = attributes => {
       user_name=$1
     LIMIT 1
   `
-  return db.one( sql, attributes.user_name)
+  return db.one( sql, attributes.user_name )
 }
 
-module.exports = { createCustomer: createCustomer, getCustomer: getCustomer }
+const getCustomerById= attributes => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      customers
+    WHERE
+      id=$1
+    LIMIT 1
+  `
+  return db.one( sql, attributes.id )
+}
+
+const getAllCustomers = () => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      customers
+  `
+  return db.any( sql )
+}
+
+const getAllIngredients = () => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      ingredients
+  `
+  return db.any( sql )
+}
+
+const getIngredientById= attributes => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      ingredients
+    WHERE
+      id=$1
+    LIMIT 1
+  `
+  return db.one( sql, attributes.id )
+}
+
+const getAllDrinks = () => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      drinks
+  `
+  return db.any( sql )
+}
+
+const getDrinkById= attributes => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      drinks
+    WHERE
+      id=$1
+    LIMIT 1
+  `
+  return db.one( sql, attributes.id )
+}
+
+const getAllPizzas = () => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      pizzas
+  `
+  return db.any( sql )
+}
+
+const getPizzaById= attributes => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      pizzas
+    WHERE
+      id=$1
+    LIMIT 1
+  `
+  return db.one( sql, attributes.id )
+}
+
+const getAllTransactions = () => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      transactions
+  `
+  return db.any( sql )
+}
+
+const getTransactionById = attributes => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      transactions
+    WHERE
+      id=$1
+    LIMIT 1
+  `
+  return db.one( sql, attributes.id )
+}
+
+module.exports = {
+  createCustomer: createCustomer,
+  getCustomerByUserName: getCustomerByUserName,
+  getCustomerById: getCustomerById,
+  getAllCustomers: getAllCustomers,
+  getAllIngredients: getAllIngredients,
+  getIngredientById: getIngredientById,
+  getAllDrinks: getAllDrinks,
+  getDrinkById: getDrinkById,
+  getAllPizzas: getAllPizzas,
+  getPizzaById: getPizzaById,
+  getAllTransactions: getAllTransactions,
+  getTransactionById: getTransactionById
+}
