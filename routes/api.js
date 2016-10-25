@@ -100,7 +100,13 @@ router.get('/ingredients/:id', function(request, response){
 })
 
 router.post('/ingredients', function(request, response){
-
+  db.createIngredient( request.body )
+    .then( () => {
+      status: 'success',
+      message: 'Created a new ingredient'
+    })
+  })
+  .catch( error => response.render('error', { error : error }));
 })
 
 router.put('/ingredients/:id', function(request, response){

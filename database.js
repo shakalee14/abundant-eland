@@ -34,7 +34,7 @@ const getCustomerByUserName = attributes => {
   return db.one( sql, attributes.user_name )
 }
 
-const getCustomerById= attributes => {
+const getCustomerById = attributes => {
   const sql = `
     SELECT
       *
@@ -67,7 +67,7 @@ const getAllIngredients = () => {
   return db.any( sql )
 }
 
-const getIngredientById= attributes => {
+const getIngredientById = attributes => {
   const sql = `
     SELECT
       *
@@ -78,6 +78,21 @@ const getIngredientById= attributes => {
     LIMIT 1
   `
   return db.one( sql, attributes.id )
+}
+
+const createIngredient = attributes => {
+  const sql = `
+    INSERT INTO ingredients
+      (name, description, type, price)
+    VALUES
+      ($1, $2, $3, $4)
+    RETURNING
+      *
+   `
+   const variables = [
+     attributes.name, attributes.description, attributes.type, attributes.price ];
+
+   return db.none( sql, variables );
 }
 
 const getAllDrinks = () => {
@@ -113,7 +128,7 @@ const getAllPizzas = () => {
   return db.any( sql )
 }
 
-const getPizzaById= attributes => {
+const getPizzaById = attributes => {
   const sql = `
     SELECT
       *
@@ -156,6 +171,7 @@ module.exports = {
   getAllCustomers: getAllCustomers,
   getAllIngredients: getAllIngredients,
   getIngredientById: getIngredientById,
+  createIngredient: createIngredient,
   getAllDrinks: getAllDrinks,
   getDrinkById: getDrinkById,
   getAllPizzas: getAllPizzas,
