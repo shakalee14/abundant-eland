@@ -21,6 +21,25 @@ const createCustomer = attributes => {
    return db.one( sql, variables );
 }
 
+const updateCustomer = attributes => {
+  const sql = `
+    UPDATE
+      customers
+    SET
+      name=$1, user_name=$2, password=$3, address=$4, phone_number=$5, payment_method=$6
+    WHERE
+      id=$7
+    RETURNING
+      *
+  `
+  const password = bcrypt.hashSync(attributes.password);
+
+  const variables = [
+    attributes.name, attributes.user_name, password, attributes.address, attributes.phone_number, attributes.payment_method, attributes.id ];
+
+  return db.one( sql, variables )
+}
+
 const getCustomerByUserName = attributes => {
   const sql = `
     SELECT
@@ -91,8 +110,38 @@ const createIngredient = attributes => {
    `
    const variables = [
      attributes.name, attributes.description, attributes.type, attributes.price ];
+   return db.one( sql, variables );
+}
 
-   return db.none( sql, variables );
+const updateIngredient = attributes => {
+  const sql = `
+    UPDATE
+      ingredients
+    SET
+      name=$1, description=$2, type=$3, price=$4
+    WHERE
+      id=$5
+    RETURNING
+      *
+  `
+  const variables = [
+    attributes.name, attributes.description, attributes.type, attributes.price, attributes.id ];
+
+  return db.one( sql, variables );
+}
+
+const createDrink = attributes => {
+  const sql = `
+    INSERT INTO drinks
+      (name, description, manufacturer, supplier, price)
+    VALUES
+      ($1, $2, $3, $4, $5)
+    RETURNING
+      *
+   `
+   const variables = [
+     attributes.name, attributes.description, attributes.manufacturer, attributes.supplier, attributes.price ];
+   return db.one( sql, variables );
 }
 
 const getAllDrinks = () => {
@@ -118,12 +167,40 @@ const getDrinkById= attributes => {
   return db.one( sql, attributes.id )
 }
 
+const updateDrink = attributes => {
+  const sql = `
+    UPDATE
+      drinks
+    SET
+      name=$1, description=$2, manufacturer=$3, supplier=$4, price=$5
+    WHERE
+      id=$6
+    RETURNING
+      *
+  `
+  const variables = [
+    attributes.name, attributes.description, attributes.manufacturer, attributes.supplier, attributes.price, attributes.id ];
+  return db.one( sql, variables );
+}
+
 const getAllPizzas = () => {
   const sql = `
     SELECT
       *
     FROM
       pizzas
+  `
+  return db.any( sql )
+}
+
+const getMenuPizzas = () => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      pizzas
+    WHERE
+      name IS NOT NULL
   `
   return db.any( sql )
 }
@@ -169,12 +246,17 @@ module.exports = {
   getCustomerByUserName: getCustomerByUserName,
   getCustomerById: getCustomerById,
   getAllCustomers: getAllCustomers,
+  updateCustomer: updateCustomer,
   getAllIngredients: getAllIngredients,
   getIngredientById: getIngredientById,
+  updateIngredient: updateIngredient,
   createIngredient: createIngredient,
   getAllDrinks: getAllDrinks,
   getDrinkById: getDrinkById,
+  updateDrink: updateDrink,
+  createDrink: createDrink,
   getAllPizzas: getAllPizzas,
+  getMenuPizzas: getMenuPizzas,
   getPizzaById: getPizzaById,
   getAllTransactions: getAllTransactions,
   getTransactionById: getTransactionById
