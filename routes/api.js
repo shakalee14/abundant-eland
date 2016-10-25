@@ -8,7 +8,7 @@ router.get('/', function(request, response, next) {
   .catch( error => response.render('error', { error : error }));
 });
 
-router.post('/', function(request, response) {
+router.post('/register', function(request, response) {
   database.createCustomer( request.body )
   .then( customer => {
     request.session.customerId = customer.id;
