@@ -284,15 +284,7 @@ const createMenuPizza = attributes => {
     RETURNING
       id
   `
-  //const query = db.one( sql1, attributes.name)
   return db.one( sql1, [attributes.name]);
-
-  // return Promise.all( query )
-  // .then( results => {
-  //   const pizza_id = results.id;
-  //
-  //   return Promise.all( db.addToPizzaIngredients( pizza_id, attributes ) ).then(() => result)
-  // });
 }
 
 const addToPizzaIngredients = (pizza_id, attributes) => {
@@ -309,7 +301,52 @@ const addToPizzaIngredients = (pizza_id, attributes) => {
   const variables = [ pizza_id,
     attributes.ingredient1, attributes.ingredient2, attributes.ingredient3
   ]
-  return db.one( sql2, variables )
+  return db.any( sql2, variables )
+}
+
+const updatePizza = attributes => {
+  const sql = `
+    UPDATE
+      pizzas
+    SET
+      name=$1
+    WHERE
+      id=$2
+    RETURNING
+      *
+    `
+  return db.one(sql, [attributes.name, attributes.pizza_id ])
+}
+
+const updatePizzaIngredients = attributes => {
+  const sqlChange = `
+    UPDATE
+      ingredients_pizzas
+    SET
+      ingredient_id=$1
+    WHERE
+      ingredient_id=$2 AND pizza_id=$3
+    RETURNING
+      *
+  `
+  const variables = [ attributes.new_ingredient_id, attributes.old_ingredient_id, attributes.pizza_id ]
+  return db.any( sqlChange, variables )
+}
+
+const getPizzaIngredients = attributes => {
+  const sql = `
+    SELECT
+     *
+    FROM
+     ingredients
+    INNER JOIN
+     ingredients_pizzas
+    ON
+     ingredients.id = ingredients_pizzas.ingredient_id
+    WHERE
+     ingredients_pizzas.pizza_id = $1
+  `
+  return db.any( sql, attributes.id )
 }
 
 
@@ -369,11 +406,14 @@ module.exports = {
   createDrink: createDrink,
   getAllPizzas: getAllPizzas,
   getMenuPizzas: getMenuPizzas,
+  updatePizza: updatePizza,
+  updatePizzaIngredients: updatePizzaIngredients,
   createMenuPizza: createMenuPizza,
   addToPizzaIngredients: addToPizzaIngredients,
   getPizzaById: getPizzaById,
   deletePizza: deletePizza,
   getAllTransactions: getAllTransactions,
   getTransactionById: getTransactionById,
-  deleteTransaction: deleteTransaction
+  deleteTransaction: deleteTransaction,
+  getPizzaIngredients: getPizzaIngredients,
 }

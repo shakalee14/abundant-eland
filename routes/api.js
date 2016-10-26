@@ -224,7 +224,34 @@ router.get('/pizzas', function(request, response){
         status: 'success',
         data: data,
         message: 'Returned all pizzas'
-      })
+    })
+  })
+  .catch( error => response.render('error', { error : error }));
+})
+
+router.get('/pizzas/:id/ingredients', function(request, response){
+  db.getPizzaIngredients( request.params )
+  .then( data => {
+    response.status(200).json({
+        status: 'success',
+        data: data,
+        message: 'Returned pizza ingredients for a pizza'
+    })
+  })
+  .catch( error => response.render('error', { error : error }));
+})
+
+router.put('/pizzas/:id/ingredients', function(request, response){
+  const newPizzaInfo = request.body
+  newPizzaInfo.pizza_id = request.params.id
+
+  Promise.all([ db.updatePizzaIngredients(newPizzaInfo), db.updatePizza(newPizzaInfo) ])
+  .then( data => {
+    response.status(200).json({
+        status: 'success',
+        data: data,
+        message: 'Updated pizza ingredients and name'
+    })
   })
   .catch( error => response.render('error', { error : error }));
 })
@@ -253,32 +280,11 @@ router.get('/pizzas/:id', function(request, response){
   .catch( error => response.render('error', { error : error }));
 })
 
-
-// router.post('/pizzas', function(request, response){
-//   db.createPizza( request.body )
-//   .then( () => {
-//     response.status(202).json({
-//       status: 'success',
-//       message: 'Created a new pizza'
-//     })
-//   })
-//   .catch( error => response.render('error', { error : error }));
-// })
-
 router.post('/pizzas', function(request, response){
-  // db.createMenuPizza( request.body )
-  // .then( () => {
-  //   response.status(202).json({
-  //     status: 'success',
-  //     message: 'Created a new pizza'
-  //   })
-  // })
-  // .catch( error => response.render('error', { error : error }));
-
   db.createMenuPizza( request.body )
   .then( result => {
     const pizza_id = result.id;
-    Promise.all(db.addToPizzaIngredients(pizza_id, request.body))
+    Promise.all([db.addToPizzaIngredients(pizza_id, request.body)])
     .then(result => {
       response.status(200).json({
         status: 'success',
@@ -293,6 +299,7 @@ router.put('/pizzas/:id', function(request, response){
 
 router.put('/pizzas/:id/delete', function(request, response){
   const id = request.params.id
+
   db.deletePizza( id )
   .then( () => {
     response.status(200).json({
