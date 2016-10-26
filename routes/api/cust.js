@@ -53,15 +53,39 @@ router.put('/:id', function(request, response){
 })
 
 router.get('/:id/preferences', function(request, response){
-
+  db.getPreferencesForCustomer(request.params)
+  .then( data => {
+    response.status(200).json({
+      status: 'success',
+      data: data,
+      message: 'Returned pizza preferences for single customer'
+    })
+  })
+  .catch( error => response.render('error', { error : error }));
 })
 
-router.post('/:id/pizza/:id', function(request, response){
-
+router.post('/:cid/:pid', function(request, response){
+  db.addPizzaPreference( request.params )
+  .then( data => {
+    response.status(200).json({
+      status: 'success',
+      data: data,
+      message: 'Added customer pizza preference'
+    })
+  })
+  .catch( error => response.render('error', { error : error }));
 })
 
-router.delete('/:id/pizza/:id', function(request, response){
-
+router.delete('/:cid/:pid', function(request, response){
+  db.deletePizzaPreference( request.params )
+  .then( data => {
+    response.status(200).json({
+      status: 'success',
+      data: data,
+      message: 'Deleted customer pizza preference'
+    })
+  })
+  .catch( error => response.render('error', { error : error }));
 })
 
 module.exports = router;
