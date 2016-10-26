@@ -10,22 +10,22 @@ router.post('/', function( request, response ){
   }, function(err, user){
     if (err) throw err;
 
-    if (!user) {
+    if (!user_name) {
       response.json({ success: false, message: 'authentication failed, user not found'});
-    } else if (user){
+    } else if (user_name){
 
-      if (user.password != request.body.password){
-        response.json({ success: false, message: 'authentication failed, wrong password'});
-      } else {
+    if (user_name.password != request.body.password){
+      response.json({ success: false, message: 'authentication failed, wrong password'});
+    } else {
 
-        var token = jwt.sign(user, app.get('superSecret'), {
-          expiresInMinutes: 140
-        });
-        response.json({
-          success: true,
-          message: 'Enjoy your token!',
-          token: token
-        });
+      var token = jwt.sign(user_name, app.get('superSecret'), {
+        expiresInMinutes: 140
+      });
+      response.json({
+        success: true,
+        message: 'Enjoy your token!',
+        token: token
+      });
       }
     }
   });
