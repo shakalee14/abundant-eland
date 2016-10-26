@@ -275,6 +275,45 @@ const getPizzaById = attributes => {
   return db.one( sql, attributes.id )
 }
 
+const createMenuPizza = attributes => {
+  const sql1 = `
+    INSERT INTO pizzas
+      (name)
+    VALUES
+      ( $1 )
+    RETURNING
+      id
+  `
+  //const query = db.one( sql1, attributes.name)
+  return db.one( sql1, [attributes.name]);
+
+  // return Promise.all( query )
+  // .then( results => {
+  //   const pizza_id = results.id;
+  //
+  //   return Promise.all( db.addToPizzaIngredients( pizza_id, attributes ) ).then(() => result)
+  // });
+}
+
+const addToPizzaIngredients = (pizza_id, attributes) => {
+  const sql2 = `
+    INSERT INTO ingredients_pizzas
+      (ingredient_id, pizza_id)
+    VALUES
+      ( $2, $1 ),
+      ( $3, $1 ),
+      ( $4, $1 )
+    RETURNING
+      *
+  `
+  const variables = [ pizza_id,
+    attributes.ingredient1, attributes.ingredient2, attributes.ingredient3
+  ]
+  return db.one( sql2, variables )
+
+}
+
+
 const getAllTransactions = () => {
   const sql = `
     SELECT
@@ -331,6 +370,8 @@ module.exports = {
   createDrink: createDrink,
   getAllPizzas: getAllPizzas,
   getMenuPizzas: getMenuPizzas,
+  createMenuPizza: createMenuPizza,
+  addToPizzaIngredients: addToPizzaIngredients,
   getPizzaById: getPizzaById,
   deletePizza: deletePizza,
   getAllTransactions: getAllTransactions,

@@ -254,19 +254,41 @@ router.get('/pizzas/:id', function(request, response){
 })
 
 
+// router.post('/pizzas', function(request, response){
+//   db.createPizza( request.body )
+//   .then( () => {
+//     response.status(202).json({
+//       status: 'success',
+//       message: 'Created a new pizza'
+//     })
+//   })
+//   .catch( error => response.render('error', { error : error }));
+// })
+
 router.post('/pizzas', function(request, response){
-  db.createPizza( request.body )
-  .then( () => {
-    response.status(202).json({
-      status: 'success',
-      message: 'Created a new pizza'
+  // db.createMenuPizza( request.body )
+  // .then( () => {
+  //   response.status(202).json({
+  //     status: 'success',
+  //     message: 'Created a new pizza'
+  //   })
+  // })
+  // .catch( error => response.render('error', { error : error }));
+
+  db.createMenuPizza( request.body )
+  .then( result => {
+    const pizza_id = result.id;
+    Promise.all(db.addToPizzaIngredients(pizza_id, request.body))
+    .then(result => {
+      response.status(200).json({
+        status: 'success',
+        message: 'Created a new pizza'
+      })
     })
   })
-  .catch( error => response.render('error', { error : error }));
 })
 
 router.put('/pizzas/:id', function(request, response){
-
 })
 
 router.put('/pizzas/:id/delete', function(request, response){
@@ -330,7 +352,7 @@ router.put('/transactions/:id/delete', function(request, response){
       message: 'Deleted transaction'
     })
   })
-  .catch( error => response.render('error', { error : error }));  
+  .catch( error => response.render('error', { error : error }));
 })
 
 module.exports = router;
