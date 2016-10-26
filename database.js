@@ -21,6 +21,35 @@ const createCustomer = attributes => {
    return db.one( sql, variables );
 }
 
+const getPreferencesForCustomer = attributes => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      pizzas
+    INNER JOIN
+      customers_pizzas
+    ON
+      pizzas.id = customers_pizzas.pizza_id
+    WHERE
+      customers_pizzas.customer_id = $1
+  `
+  return db.any( sql, [attributes.id] )
+}
+
+const addPizzaPreference = attributes => {
+  const sql = `
+    INSERT INTO customers_pizzas
+      ( customer_id, pizza_id )
+    VALUES
+      ( $1, $2 )
+    RETURNING
+      *
+  `
+  const variables = [ attributes.cid, attributes.pid ]
+  return db.any( sql, variables )
+}
+
 const updateCustomer = attributes => {
   const sql = `
     UPDATE
@@ -261,6 +290,17 @@ const deletePizza = attributes => {
   return db.one( sql, attributes )
 }
 
+const deletePizzaPreference = attributes => {
+  const sql = `
+    DELETE FROM
+      customers_pizzas
+    WHERE
+      customer_id=$1 AND pizza_id=$2`
+
+  const variables = [ attributes.cid, attributes.pid ];
+  return db.one( sql, variables )
+
+}
 
 const getPizzaById = attributes => {
   const sql = `
@@ -486,5 +526,8 @@ module.exports = {
   addPizzaToTransaction: addPizzaToTransaction,
   addDrinkToTransaction: addDrinkToTransaction,
   getTransactionsForCustomer, getTransactionsForCustomer,
-  getMostRecentTransactionForCustomer: getMostRecentTransactionForCustomer
+  getMostRecentTransactionForCustomer: getMostRecentTransactionForCustomer,
+  addPizzaPreference: addPizzaPreference,
+  getPreferencesForCustomer: getPreferencesForCustomer,
+  deletePizzaPreference: deletePizzaPreference
 }
