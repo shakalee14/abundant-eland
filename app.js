@@ -8,7 +8,12 @@ var cookieSession = require('cookie-session');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var api = require('./routes/api');
+var api = require('./routes/api/auth');
+var apiCustomers = require('./routes/api/cust');
+var apiIngredients = require('./routes/api/ingredients');
+var apiDrinks = require('./routes/api/drinks');
+var apiPizzas = require('./routes/api/pizzas');
+var apiTransactions = require('./routes/api/transactions');
 
 var app = express();
 
@@ -36,6 +41,12 @@ app.use((request, response, next) => {
 app.use('/', routes);
 app.use('/users', users);
 app.use('/api', api);
+app.use('/api/customers', apiCustomers);
+app.use('/api/ingredients', apiIngredients);
+app.use('/api/drinks', apiDrinks);
+app.use('/api/pizzas', apiPizzas);
+app.use('/api/transactions', apiTransactions);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var database = require('../database');
+var db = require('../../database');
 
 /* GET home page. */
 router.get('/', function(request, response, next) {
@@ -9,7 +9,7 @@ router.get('/', function(request, response, next) {
 });
 
 router.post('/register', function(request, response) {
-  database.createCustomer( request.body )
+  db.createCustomer( request.body )
   .then( customer => {
     request.session.customerId = customer.id;
     response.redirect('/');
@@ -23,7 +23,7 @@ router.get('/logout', function(request, response) {
 })
 
 router.post('/login', function(request, response) {
-  database.getCustomer( request.body )
+  db.getCustomerByUserName( request.body )
   .then( customer => {
     request.session.customerId = customer.id;
     response.redirect('/');

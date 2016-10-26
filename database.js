@@ -18,10 +18,43 @@ const createCustomer = attributes => {
    const variables = [
      attributes.name, attributes.user_name, password, attributes.address, attributes.phone_number, attributes.payment_method ];
 
-   return db.one(sql, variables);
+   return db.one( sql, variables );
 }
 
-const getCustomer = attributes => {
+const updateCustomer = attributes => {
+  const sql = `
+    UPDATE
+      customers
+    SET
+      name=$1, user_name=$2, password=$3, address=$4, phone_number=$5, payment_method=$6
+    WHERE
+      id=$7
+    RETURNING
+      *
+  `
+  const password = bcrypt.hashSync(attributes.password);
+
+  const variables = [
+    attributes.name, attributes.user_name, password, attributes.address, attributes.phone_number, attributes.payment_method, attributes.id ];
+
+  return db.one( sql, variables )
+}
+
+const deleteCustomer = attributes => {
+  const sql = `
+    UPDATE
+      customers
+    SET
+      is_active=false
+    WHERE
+      id=$1
+    RETURNING
+      *
+  `
+  return db.one( sql, attributes )
+}
+
+const getCustomerByUserName = attributes => {
   const sql = `
     SELECT
       *
@@ -31,7 +64,356 @@ const getCustomer = attributes => {
       user_name=$1
     LIMIT 1
   `
-  return db.one( sql, attributes.user_name)
+  return db.one( sql, attributes.user_name )
 }
 
-module.exports = { createCustomer: createCustomer, getCustomer: getCustomer }
+const getCustomerById = attributes => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      customers
+    WHERE
+      id=$1
+    LIMIT 1
+  `
+  return db.one( sql, attributes.id )
+}
+
+const getAllCustomers = () => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      customers
+  `
+  return db.any( sql )
+}
+
+const getAllIngredients = () => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      ingredients
+  `
+  return db.any( sql )
+}
+
+const getIngredientById = attributes => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      ingredients
+    WHERE
+      id=$1
+    LIMIT 1
+  `
+  return db.one( sql, attributes.id )
+}
+
+const createIngredient = attributes => {
+  const sql = `
+    INSERT INTO ingredients
+      (name, description, type, price)
+    VALUES
+      ($1, $2, $3, $4)
+    RETURNING
+      *
+   `
+   const variables = [
+     attributes.name, attributes.description, attributes.type, attributes.price ];
+   return db.one( sql, variables );
+}
+
+const deleteIngredient = attributes => {
+  const sql = `
+    UPDATE
+      ingredients
+    SET
+      is_active=false
+    WHERE
+      id=$1
+    RETURNING
+      *
+  `
+  return db.one( sql, attributes )
+}
+
+const updateIngredient = attributes => {
+  const sql = `
+    UPDATE
+      ingredients
+    SET
+      name=$1, description=$2, type=$3, price=$4
+    WHERE
+      id=$5
+    RETURNING
+      *
+  `
+  const variables = [
+    attributes.name, attributes.description, attributes.type, attributes.price, attributes.id ];
+
+  return db.one( sql, variables );
+}
+
+const createDrink = attributes => {
+  const sql = `
+    INSERT INTO drinks
+      (name, description, manufacturer, supplier, price)
+    VALUES
+      ($1, $2, $3, $4, $5)
+    RETURNING
+      *
+   `
+   const variables = [
+     attributes.name, attributes.description, attributes.manufacturer, attributes.supplier, attributes.price ];
+   return db.one( sql, variables );
+}
+
+const getAllDrinks = () => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      drinks
+  `
+  return db.any( sql )
+}
+
+const getDrinkById= attributes => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      drinks
+    WHERE
+      id=$1
+    LIMIT 1
+  `
+  return db.one( sql, attributes.id )
+}
+
+const updateDrink = attributes => {
+  const sql = `
+    UPDATE
+      drinks
+    SET
+      name=$1, description=$2, manufacturer=$3, supplier=$4, price=$5
+    WHERE
+      id=$6
+    RETURNING
+      *
+  `
+  const variables = [
+    attributes.name, attributes.description, attributes.manufacturer, attributes.supplier, attributes.price, attributes.id ];
+  return db.one( sql, variables );
+}
+
+const deleteDrink = attributes => {
+  const sql = `
+    UPDATE
+      drinks
+    SET
+      is_active=false
+    WHERE
+      id=$1
+    RETURNING
+      *
+  `
+  return db.one( sql, attributes )
+}
+
+const getAllPizzas = () => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      pizzas
+  `
+  return db.any( sql )
+}
+
+const getMenuPizzas = () => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      pizzas
+    WHERE
+      name IS NOT NULL
+  `
+  return db.any( sql )
+}
+
+const deletePizza = attributes => {
+  const sql = `
+    UPDATE
+      pizzas
+    SET
+      is_active=false
+    WHERE
+      id=$1
+    RETURNING
+      *
+  `
+  return db.one( sql, attributes )
+}
+
+
+const getPizzaById = attributes => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      pizzas
+    WHERE
+      id=$1
+    LIMIT 1
+  `
+  return db.one( sql, attributes.id )
+}
+
+const createMenuPizza = attributes => {
+  const sql1 = `
+    INSERT INTO pizzas
+      (name)
+    VALUES
+      ( $1 )
+    RETURNING
+      id
+  `
+  return db.one( sql1, [attributes.name]);
+}
+
+const addToPizzaIngredients = (pizza_id, attributes) => {
+  const sql2 = `
+    INSERT INTO ingredients_pizzas
+      (ingredient_id, pizza_id)
+    VALUES
+      ( $2, $1 ),
+      ( $3, $1 ),
+      ( $4, $1 )
+    RETURNING
+      *
+  `
+  const variables = [ pizza_id,
+    attributes.ingredient1, attributes.ingredient2, attributes.ingredient3
+  ]
+  return db.any( sql2, variables )
+}
+
+const updatePizza = attributes => {
+  const sql = `
+    UPDATE
+      pizzas
+    SET
+      name=$1
+    WHERE
+      id=$2
+    RETURNING
+      *
+    `
+  return db.one(sql, [attributes.name, attributes.pizza_id ])
+}
+
+const updatePizzaIngredients = attributes => {
+  const sqlChange = `
+    UPDATE
+      ingredients_pizzas
+    SET
+      ingredient_id=$1
+    WHERE
+      ingredient_id=$2 AND pizza_id=$3
+    RETURNING
+      *
+  `
+  const variables = [ attributes.new_ingredient_id, attributes.old_ingredient_id, attributes.pizza_id ]
+  return db.any( sqlChange, variables )
+}
+
+const getPizzaIngredients = attributes => {
+  const sql = `
+    SELECT
+     *
+    FROM
+     ingredients
+    INNER JOIN
+     ingredients_pizzas
+    ON
+     ingredients.id = ingredients_pizzas.ingredient_id
+    WHERE
+     ingredients_pizzas.pizza_id = $1
+  `
+  return db.any( sql, attributes.id )
+}
+
+
+const getAllTransactions = () => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      transactions
+  `
+  return db.any( sql )
+}
+
+const getTransactionById = attributes => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      transactions
+    WHERE
+      id=$1
+    LIMIT 1
+  `
+  return db.one( sql, attributes.id )
+}
+
+const deleteTransaction = attributes => {
+  const sql = `
+    UPDATE
+      transactions
+    SET
+      is_active = false
+    WHERE
+      id= $1
+    RETURNING
+      *
+  `
+  return db.one( sql, attributes )
+}
+
+module.exports = {
+  createCustomer: createCustomer,
+  getCustomerByUserName: getCustomerByUserName,
+  getCustomerById: getCustomerById,
+  getAllCustomers: getAllCustomers,
+  updateCustomer: updateCustomer,
+  deleteCustomer: deleteCustomer,
+  getAllIngredients: getAllIngredients,
+  deleteIngredient: deleteIngredient,
+  getIngredientById: getIngredientById,
+  updateIngredient: updateIngredient,
+  createIngredient: createIngredient,
+  getAllDrinks: getAllDrinks,
+  getDrinkById: getDrinkById,
+  updateDrink: updateDrink,
+  deleteDrink: deleteDrink,
+  createDrink: createDrink,
+  getAllPizzas: getAllPizzas,
+  getMenuPizzas: getMenuPizzas,
+  updatePizza: updatePizza,
+  updatePizzaIngredients: updatePizzaIngredients,
+  createMenuPizza: createMenuPizza,
+  addToPizzaIngredients: addToPizzaIngredients,
+  getPizzaById: getPizzaById,
+  deletePizza: deletePizza,
+  getAllTransactions: getAllTransactions,
+  getTransactionById: getTransactionById,
+  deleteTransaction: deleteTransaction,
+  getPizzaIngredients: getPizzaIngredients,
+}
