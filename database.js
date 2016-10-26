@@ -310,7 +310,6 @@ const addToPizzaIngredients = (pizza_id, attributes) => {
     attributes.ingredient1, attributes.ingredient2, attributes.ingredient3
   ]
   return db.one( sql2, variables )
-
 }
 
 
