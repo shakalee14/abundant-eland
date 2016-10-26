@@ -77,6 +77,7 @@ router.post('/', function(request, response){
       })
     })
   })
+  .catch( error => response.render('error', { error : error }));
 })
 
 router.put('/:id', function(request, response){
