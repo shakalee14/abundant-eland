@@ -14,6 +14,7 @@ var apiIngredients = require('./routes/api/ingredients');
 var apiDrinks = require('./routes/api/drinks');
 var apiPizzas = require('./routes/api/pizzas');
 var apiTransactions = require('./routes/api/transactions');
+var apiToken = require('./routes/api/authenticate');
 
 var app = express();
 
@@ -38,6 +39,7 @@ app.use((request, response, next) => {
   response.locals.signedIn = 'customerId' in request.session
   next();
 })
+
 app.use('/', routes);
 app.use('/users', users);
 app.use('/api', api);
@@ -46,6 +48,7 @@ app.use('/api/ingredients', apiIngredients);
 app.use('/api/drinks', apiDrinks);
 app.use('/api/pizzas', apiPizzas);
 app.use('/api/transactions', apiTransactions);
+app.use('/api/authenticate', apiToken);
 
 
 // catch 404 and forward to error handler
