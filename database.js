@@ -467,6 +467,54 @@ const getTransactionById = attributes => {
   return db.one( sql, attributes.id )
 }
 
+const getTransactionDrinksById = attributes => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      drinks
+    INNER JOIN
+      drink_transactions
+    ON
+      drinks.id = drink_transactions.drink_id
+    WHERE
+      drink_transactions.transaction_id = $1
+  `
+  return db.any( sql, [ attributes.id ])
+}
+
+const getTransactionPizzasById = attributes => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      pizzas
+    INNER JOIN
+      pizza_transactions
+    ON
+      pizzas.id = pizza_transactions.pizza_id
+    WHERE
+      pizza_transactions.transaction_id = $1
+  `
+  return db.any( sql, [ attributes.id ])
+}
+
+const getCustomerInfoByTransactionId = attributes => {
+  const sql = `
+    SELECT
+      name, address, phone_number
+    FROM
+      customers
+    INNER JOIN
+      transactions
+    ON
+      customers.id = transactions.customer_id
+    WHERE
+      transactions.id = $1
+  `
+  return db.any( sql, [ attributes.id ])
+}
+
 const getTransactionsForCustomer = attributes => {
   const sql = `
     SELECT
@@ -529,5 +577,8 @@ module.exports = {
   getMostRecentTransactionForCustomer: getMostRecentTransactionForCustomer,
   addPizzaPreference: addPizzaPreference,
   getPreferencesForCustomer: getPreferencesForCustomer,
-  deletePizzaPreference: deletePizzaPreference
+  deletePizzaPreference: deletePizzaPreference,
+  getTransactionPizzasById: getTransactionPizzasById,
+  getTransactionDrinksById: getTransactionDrinksById,
+  getCustomerInfoByTransactionId: getCustomerInfoByTransactionId
 }
