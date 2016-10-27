@@ -1,7 +1,7 @@
 navbar.navbar
   if signedIn
     a.navbar(href='/api/logout') Logout
-    p.navbar You are signed in as #{user_name}
+    p.navbar You are signed in as
   else
 
     form(method='post' action='/api/login')

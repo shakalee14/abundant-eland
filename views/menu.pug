@@ -1,0 +1,13 @@
+extends layout
+
+block content
+  h1.menu Pizza Store Menu
+    for pizza in pizzas
+      h3.menu=pizza.name
+    for drink in drinks
+      h3.menu=drink.name
+      h4.menu=drink.price
+    for ingredient in ingredients
+      h3.menu=ingredient.name
+      h4.menu=ingredient.price
+

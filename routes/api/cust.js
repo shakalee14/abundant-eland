@@ -3,12 +3,24 @@ var router = express.Router();
 var db = require('../../database');
 
 router.get('/', function(request, response){
+  db.getAllActiveCustomers()
+  .then( data => {
+    response.status(200).json({
+        status: 'success',
+        data: data,
+        message: 'Returned all active customers'
+    })
+  })
+  .catch( error => response.render('error', { error : error }));
+})
+
+router.get('/all', function(request, response){
   db.getAllCustomers()
   .then( data => {
     response.status(200).json({
         status: 'success',
         data: data,
-        message: 'Returned all Customers'
+        message: 'Returned all customers'
     })
   })
   .catch( error => response.render('error', { error : error }));
