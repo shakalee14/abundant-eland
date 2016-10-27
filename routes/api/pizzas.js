@@ -4,23 +4,11 @@ var db = require('../../database');
 
 router.get('/', function(request, response){
   db.getAllPizzas()
-  .then( data => {
+  .then( pizzas => {
     response.status(200).json({
-        status: 'success',
-        data: data,
-        message: 'Returned all pizzas'
-    })
-  })
-  .catch( error => response.render('error', { error : error }));
-})
-
-router.get('/:id/ingredients', function(request, response){
-  db.getPizzaIngredients( request.params )
-  .then( data => {
-    response.status(200).json({
-        status: 'success',
-        data: data,
-        message: 'Returned pizza ingredients for a pizza'
+      status: 'success',
+      pizzas: pizzas,
+      message: 'Returned all pizzas'
     })
   })
   .catch( error => response.render('error', { error : error }));
@@ -31,11 +19,11 @@ router.put('/:id/ingredients', function(request, response){
   newPizzaInfo.pizza_id = request.params.id
 
   Promise.all([ db.updatePizzaIngredients(newPizzaInfo), db.updatePizza(newPizzaInfo) ])
-  .then( data => {
+  .then( pizza => {
     response.status(200).json({
-        status: 'success',
-        data: data,
-        message: 'Updated pizza ingredients and name'
+      status: 'success',
+      pizza: pizza,
+      message: 'Updated pizza ingredients and name'
     })
   })
   .catch( error => response.render('error', { error : error }));
@@ -43,10 +31,10 @@ router.put('/:id/ingredients', function(request, response){
 
 router.get('/menu', function(request, response){
   db.getMenuPizzas()
-  .then( data => {
+  .then( pizza => {
     response.status(200).json({
         status: 'success',
-        data: data,
+        pizza: pizza,
         message: 'Returned all menu pizzas'
     })
   })
@@ -55,12 +43,17 @@ router.get('/menu', function(request, response){
 
 router.get('/:id', function(request, response){
   db.getPizzaById( request.params )
-  .then( data => {
-    response.status(200).json({
-      status: 'success',
-      data: data,
-      message: 'Returned pizza at id'
+  .then( pizza => {
+    Promise.all([db.getPizzaIngredients(pizza)])
+    .then( ingredients => {
+      response.status(200).json({
+        status: 'success',
+        pizza: pizza,
+        ingredients: ingredients,
+        message: 'Returned pizza at id'
+      })
     })
+  .catch( error => response.render('error', { error : error }));
   })
   .catch( error => response.render('error', { error : error }));
 })
