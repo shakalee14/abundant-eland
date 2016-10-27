@@ -36,11 +36,13 @@ router.post('/customers/:id', function(request, response){
 })
 
 router.get('/:id', function(request, response){
-  db.getTransactionById( request.params )
-  .then( data => {
+  const transactionId = request.params
+  Promise.all([db.getTransactionById( transactionId ), db.getTransactionPizzasById( transactionId ),
+  db.getTransactionDrinksById( transactionId ), db.getCustomerInfoByTransactionId( transactionId ) ])
+  .then( transaction => {
     response.status(200).json({
       status: 'success',
-      data: data,
+      transaction: transaction,
       message: 'Returned transaction at id'
     })
   })
