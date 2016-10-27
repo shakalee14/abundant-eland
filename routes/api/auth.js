@@ -1,11 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var db = require('../../database');
+var bcrypt = require('bcrypt-nodejs');
 
-/* GET home page. */
 router.get('/', function(request, response, next) {
-  response.render('api')
-  .catch( error => response.render('error', { error : error }));
+  response.render( 'api' )
+  .catch( error => response.render( 'error', { error : error } ));
 });
 
 router.post('/register', function(request, response) {
@@ -18,26 +18,30 @@ router.post('/register', function(request, response) {
         request.session.customerId = customer.id;
         response.redirect('/');
       })
-      .catch( error => response.render('error', { error : error }));
+      .catch( error => response.render( 'error', { error : error } ));
     } else {
-      response.render('api', {message:'User name already taken'})
+      response.render( 'api', { message:'User name already taken' })
     }
   })
-  .catch( error => response.render('error', { error : error }));
-})
-
-router.get('/logout', function(request, response) {
-  delete request.session.customerId;
-  response.render('logout')
+  .catch( error => response.render( 'error', { error : error } ));
 })
 
 router.post('/login', function(request, response) {
   db.getCustomerByUserName( request.body )
   .then( customer => {
-    request.session.customerId = customer.id;
-    response.redirect('/');
+    if(bcrypt.compareSync(request.body.password, customer.password)){
+      request.session.customerId = customer.id;
+      response.redirect('/');
+     } else {
+      response.send( { message: 'Wrong password' } )
+    }
   })
-  .catch( error => response.render('error', { error : error }));
+  .catch( error => response.render( 'error', { error : error } ));
+})
+
+router.get('/logout', function(request, response) {
+  delete request.session.customerId;
+  response.render( 'logout' )
 })
 
 module.exports = router;
