@@ -96,6 +96,18 @@ const getCustomerByUserName = attributes => {
   return db.one( sql, attributes.user_name )
 }
 
+const checkCustomerUserName = attributes => {
+  const sql = `
+    SELECT
+      count(*)
+    FROM
+      customers
+    WHERE
+      user_name=$1
+  `
+  return db.one(sql, [attributes.user_name])
+}
+
 const getCustomerById = attributes => {
   const sql = `
     SELECT
@@ -580,6 +592,7 @@ const deleteTransaction = attributes => {
 module.exports = {
   createCustomer: createCustomer,
   getCustomerByUserName: getCustomerByUserName,
+  checkCustomerUserName: checkCustomerUserName,
   getCustomerById: getCustomerById,
   getAllCustomers: getAllCustomers,
   getAllActiveCustomers: getAllActiveCustomers,
