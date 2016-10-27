@@ -386,7 +386,7 @@ const getPizzaIngredients = attributes => {
     WHERE
      ingredients_pizzas.pizza_id = $1
   `
-  return db.any( sql, attributes.id )
+  return db.any( sql, [ attributes.id ] )
 }
 
 
@@ -525,7 +525,7 @@ module.exports = {
   createNewTransactionForCustomer: createNewTransactionForCustomer,
   addPizzaToTransaction: addPizzaToTransaction,
   addDrinkToTransaction: addDrinkToTransaction,
-  getTransactionsForCustomer, getTransactionsForCustomer,
+  getTransactionsForCustomer: getTransactionsForCustomer,
   getMostRecentTransactionForCustomer: getMostRecentTransactionForCustomer,
   addPizzaPreference: addPizzaPreference,
   getPreferencesForCustomer: getPreferencesForCustomer,
