@@ -9,10 +9,19 @@ router.get('/', function(request, response, next) {
 });
 
 router.post('/register', function(request, response) {
-  db.createCustomer( request.body )
-  .then( customer => {
-    request.session.customerId = customer.id;
-    response.redirect('/');
+  const user_name = request.body
+  db.checkCustomerUserName(user_name)
+  .then( result => {
+    if(result.count == 0){
+      db.createCustomer( user_name )
+      .then( customer => {
+        request.session.customerId = customer.id;
+        response.redirect('/');
+      })
+      .catch( error => response.render('error', { error : error }));
+    } else {
+      response.render('api', {message:'User name already taken'})
+    }
   })
   .catch( error => response.render('error', { error : error }));
 })
