@@ -8,6 +8,7 @@ var cookieSession = require('cookie-session');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
+var createpizza = require('./routes/createpizza');
 var api = require('./routes/api/auth');
 var apiCustomers = require('./routes/api/cust');
 var apiIngredients = require('./routes/api/ingredients');
@@ -40,6 +41,7 @@ app.use((request, response, next) => {
 })
 app.use('/', routes);
 app.use('/users', users);
+app.use('/createpizza', createpizza)
 app.use('/api', api);
 app.use('/api/customers', apiCustomers);
 app.use('/api/ingredients', apiIngredients);
