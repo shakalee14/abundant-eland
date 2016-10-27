@@ -3,6 +3,18 @@ var router = express.Router();
 var db = require('../../database');
 
 router.get('/', function(request, response){
+  db.getAllActiveDrinks()
+  .then( data => {
+    response.status(200).json({
+        status: 'success',
+        data: data,
+        message: 'Returned all available drinks'
+    })
+  })
+  .catch( error => response.render('error', { error : error }));
+})
+
+router.get('/all', function(request, response){
   db.getAllDrinks()
   .then( data => {
     response.status(200).json({

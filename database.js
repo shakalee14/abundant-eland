@@ -109,6 +109,18 @@ const getCustomerById = attributes => {
   return db.one( sql, attributes.id )
 }
 
+const getAllActiveCustomers = () => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      customers
+    WHERE
+      is_active = true
+  `
+  return db.any( sql )
+}
+
 const getAllCustomers = () => {
   const sql = `
     SELECT
@@ -125,6 +137,18 @@ const getAllIngredients = () => {
       *
     FROM
       ingredients
+  `
+  return db.any( sql )
+}
+
+const getAllActiveIngredients = () => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      ingredients
+    WHERE
+      is_active = true
   `
   return db.any( sql )
 }
@@ -211,6 +235,18 @@ const getAllDrinks = () => {
   return db.any( sql )
 }
 
+const getAllActiveDrinks = () => {
+  const sql = `
+    SELECT
+      *
+    FROM
+      drinks
+    WHERE
+      is_active = true
+  `
+  return db.any( sql )
+}
+
 const getDrinkById= attributes => {
   const sql = `
     SELECT
@@ -271,7 +307,7 @@ const getMenuPizzas = () => {
     FROM
       pizzas
     WHERE
-      name IS NOT NULL
+      name IS NOT NULL and is_active = true
   `
   return db.any( sql )
 }
@@ -546,14 +582,17 @@ module.exports = {
   getCustomerByUserName: getCustomerByUserName,
   getCustomerById: getCustomerById,
   getAllCustomers: getAllCustomers,
+  getAllActiveCustomers: getAllActiveCustomers,
   updateCustomer: updateCustomer,
   deleteCustomer: deleteCustomer,
   getAllIngredients: getAllIngredients,
+  getAllActiveIngredients: getAllActiveIngredients,
   deleteIngredient: deleteIngredient,
   getIngredientById: getIngredientById,
   updateIngredient: updateIngredient,
   createIngredient: createIngredient,
   getAllDrinks: getAllDrinks,
+  getAllActiveDrinks: getAllActiveDrinks,
   getDrinkById: getDrinkById,
   updateDrink: updateDrink,
   deleteDrink: deleteDrink,
@@ -580,5 +619,5 @@ module.exports = {
   deletePizzaPreference: deletePizzaPreference,
   getTransactionPizzasById: getTransactionPizzasById,
   getTransactionDrinksById: getTransactionDrinksById,
-  getCustomerInfoByTransactionId: getCustomerInfoByTransactionId
+  getCustomerInfoByTransactionId: getCustomerInfoByTransactionId,
 }
