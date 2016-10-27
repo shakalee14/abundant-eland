@@ -23,4 +23,18 @@ router.post('/', function(request, response){
   .catch( error => response.render('error', { error : error }));
 })
 
+router.get('/ingredients', function(request, response){
+  response.render('ingredients')
+})
+
+router.post('/ingredients', function(request, response){
+  const ingredientInfo = request.body
+  ingredientInfo.type = 'Topping'
+
+  db.createIngredient( ingredientInfo )
+  .then( result => { response.render('success', {message:'You Added an Ingredient!'})
+  })
+  .catch( error => response.render('error', { error : error }));
+})
+
 module.exports = router;

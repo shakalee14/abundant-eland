@@ -1,0 +1,11 @@
+extends layout
+
+block content
+
+  h1 Add Ingredients Page
+
+  form.formingredients(method='post' action='/createpizza/ingredients')
+    input(type='text' name='name' placeholder='add pizza ingredient name')
+    input(type='text' name='description' placeholder='description')
+    input(type='text' name='price' placeholder='price')
+    input(type='submit')
