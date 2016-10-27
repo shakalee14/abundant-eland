@@ -1,0 +1,24 @@
+extends layout
+
+block content
+  h1.formpizza #{title}
+
+  form.formpizza(method='post' action='/createpizza')
+    input(type='text' name='name' placeholder='Name of Pizza')
+    br
+    select(type='select' name='ingredient1')
+      for item in data
+        if item.type == 'Size'
+          option(value=item.id)=item.name
+    br
+    select(type='select' name='ingredient2')
+      for item in data
+        if item.type == 'Crust'
+          option(value=item.id)=item.name
+    br
+    select(type='select' name='ingredient3')
+      for item in data
+        if item.type == 'Topping'
+          option(value=item.id)=item.name
+    br
+    input(type='submit' name='Create Pizza')
