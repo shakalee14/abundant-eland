@@ -15,13 +15,13 @@ Your job is also to provide a basic API that provides the ability to CRUD the da
 
 Piccadilly wants its system to:
 
-- [X ] Track all of its **customers** and any relevant customer information, such as customer ID, name, username/login details, delivery address(es), phone number(s), payment methods on file (e.g., cash, credit, check - if credit, then the card number should also be stored), etc.
+- [X] Track all of its **customers** and any relevant customer information, such as customer ID, name, username/login details, delivery address(es), phone number(s), payment methods on file (e.g., cash, credit, check - if credit, then the card number should also be stored), etc.
 - [X] Track each customer's pizza **preferences**
 - [X] Track the **ingredients** that comprise each of these preferences (e.g., onions, ham, pineapple, anchovies, bacon, etc.)
-- [ X] Track standard **drinks**, including a product ID, drink description, manufacturer, supplier, price
-- [ X] Track its **pizza** sizes (small, medium, large, extra large), types (thick or thin crust), **ingredients** (pepperoni, sausage, mushrooms, onions, cheese, etc.), price data for these pizza sizes and ingredients, and happy hour price discounts.
-- [ X] Maintain a history of **transactions** - all purchases including price, payment method, and delivery date.
-- [ X] The artifact produced is properly licensed, preferably with the [MIT license][mit-license].
+- [X] Track standard **drinks**, including a product ID, drink description, manufacturer, supplier, price
+- [X] Track its **pizza** sizes (small, medium, large, extra large), types (thick or thin crust), **ingredients** (pepperoni, sausage, mushrooms, onions, cheese, etc.), price data for these pizza sizes and ingredients, and happy hour price discounts.
+- [X] Maintain a history of **transactions** - all purchases including price, payment method, and delivery date.
+- [X] The artifact produced is properly licensed, preferably with the [MIT license][mit-license].
 
 Please feel free to adapt the content of the data to your personal preferences or adjust your schema to support any other data types or operations you can think of.
 
