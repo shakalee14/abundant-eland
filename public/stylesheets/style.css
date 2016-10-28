@@ -46,3 +46,23 @@ a:hover {
 .formpizza {
   text-align: center;
 }
+
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+td, th {
+    border: 1px solid #74675D;
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even) {
+    background-color: #CDB0B5;
+}
+
+td:nth-child(5){
+  width: 20%
+}
