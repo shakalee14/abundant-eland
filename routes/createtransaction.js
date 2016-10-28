@@ -1,9 +1,11 @@
-var express = require('express');
-var router = express.Router();
-var db = require('../database');
+const express = require('express');
+const router = express.Router();
+const db = require('../database/menu.js');
+const db_transaction = require('../database/database_transactions.js')
+const db_customers = require('../database/database_customers.js')
 
 router.get('/', function(request, response){
-  Promise.all([ db.getMenuPizzas(), db.getAllActiveDrinks(), db.getAllCustomers() ])
+  Promise.all([ db.getMenuPizzas(), db.getAllActiveDrinks(), db_customers.getAllCustomers() ])
   .then( result => {
     response.render('transaction', {result} ) })
 })
@@ -13,13 +15,16 @@ router.post('/', function(request,response){
   const customer = request.session.customer_id
   transactionInfo.customer_id
 
-  db.createNewTransactionForCustomer( transactionInfo )
+  db_transaction.createNewTransactionForCustomer( transactionInfo )
   .then( data => {
     const transaction_id = data.id;
-    Promise.all([db.addPizzaToTransaction(transactionInfo, transaction_id), db.addDrinkToTransaction(transactionInfo, transaction_id)
+    Promise.all([db_transaction.addPizzaToTransaction(transactionInfo, transaction_id), db_transaction.addDrinkToTransaction(transactionInfo, transaction_id)
     ])
     .then( data => {
-      response.render('success', {message:'Your order is placed :)'})
+      response.render('success', {
+        message:'Order  '+transaction_id+' is placed :)',
+        data: data
+      })
     })
   })
   .catch( error => response.render('error', { error : error }));

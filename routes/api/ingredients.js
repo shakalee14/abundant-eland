@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var db = require('../../database');
+var db = require('../../database/database_ingredients.js');
 
 router.get('/', function(request, response){
   db.getAllActiveIngredients()

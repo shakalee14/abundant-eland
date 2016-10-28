@@ -4,34 +4,41 @@ block content
 
   if signedIn
 
-    h1 Place an Order
+    h1.transaction Place Order
 
-    form.formtransaction(method='post', action='/createtransaction')
-      select(type='select' name='pizza_id1')
+    form.formtransaction(method='post', action='/createtransaction' id='orderform')
+      h4 Pizza
+      select(type='select' name='pizza_id1' id='order_pizza1')
         for item in result[0]
           option(value=item.id)=item.name
-      input(type='text', name='pizza_number', placeholder='amount')
+      input(type='number', min='0', max='10' id='pizza_amount1', value=1, name='pizza_number')
       br
-      select(type='select' name='pizza_id2')
+      select(type='select' name='pizza_id2' id='order_pizza2')
         for item in result[0]
           option(value=item.id)=item.name
-      input(type='text', name='pizza_number2', placeholder='amount')
+      input(type='number', min='0', max='10', id='pizza_amount2', value=0, name='pizza_number2')
       br
-      select(type='select' name='drink_id1')
+      h4 Drinks
+      select(type='select' name='drink_id1' id='order_drink1')
         for item in result[1]
           option(value=item.id)=item.name
-      input(type='text', name='drink_number', placeholder='amount')
+      input(type='number', min='0', max='10' id='drink_amount1', value=1, name='drink_number')
       br
-      select(type='select' name='drink_id2')
+      select(type='select' name='drink_id2' id='order_drink2')
         for item in result[1]
           option(value=item.id)=item.name
-      input(type='text', name='drink_number2', placeholder='amount')
+      input(type='number', min='0', max='10' id='drink_amount2', value=0, name='drink_number2')
       br
-      select(type='select' name='customer_id')
+      h4 Customer Name
+      select(type='select' name='customer_id' id='order')
         for item in result[2]
           option(value=item.id)=item.name
       br
-      input(type='text', name='price_total', placeholder='price')
-      input(type='submit')
+      h3 Total Price
+      input(type='text', name='price_total', placeholder='price' id='totalPrice')
+      br
+      br
+      input.button(type='submit')
+
   else
     h1 Log in to create an order
