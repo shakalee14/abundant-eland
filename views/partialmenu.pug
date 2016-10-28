@@ -1,0 +1,16 @@
+partialmenu
+  h3.menu Size
+  for ingredient in ingredients
+    if ingredient.type == 'Size'
+      h5.menu=ingredient.name
+      p.menu=ingredient.price
+  h3.menu Crust
+  for ingredient in ingredients
+    if ingredient.type == 'Crust'
+      h5.menu=ingredient.name
+      p.menu=ingredient.price
+  h3.menu Toppings
+  for ingredient in ingredients
+    if ingredient.type == 'Topping'
+      h5.menu=ingredient.name
+      p.menu=ingredient.price
