@@ -1,0 +1,37 @@
+extends layout
+
+block content
+
+  if signedIn
+
+    h1 Place an Order
+
+    form.formtransaction(method='post', action='/createtransaction')
+      select(type='select' name='pizza_id1')
+        for item in result[0]
+          option(value=item.id)=item.name
+      input(type='text', name='pizza_number', placeholder='amount')
+      br
+      select(type='select' name='pizza_id2')
+        for item in result[0]
+          option(value=item.id)=item.name
+      input(type='text', name='pizza_number2', placeholder='amount')
+      br
+      select(type='select' name='drink_id1')
+        for item in result[1]
+          option(value=item.id)=item.name
+      input(type='text', name='drink_number', placeholder='amount')
+      br
+      select(type='select' name='drink_id2')
+        for item in result[1]
+          option(value=item.id)=item.name
+      input(type='text', name='drink_number2', placeholder='amount')
+      br
+      select(type='select' name='customer_id')
+        for item in result[2]
+          option(value=item.id)=item.name
+      br
+      input(type='text', name='price_total', placeholder='price')
+      input(type='submit')
+  else
+    h1 Log in to create an order
