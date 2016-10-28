@@ -17,7 +17,7 @@ router.post('/', function(request, response){
     const pizza_id = result.id;
     Promise.all([db.addToPizzaIngredients(pizza_id, request.body)])
     .then(result => { response.render('success', {
-      message:'you created a pizza' })
+      message:'You Created a Pizza' })
     })
   })
   .catch( error => response.render('error', { error : error }));
@@ -32,7 +32,7 @@ router.post('/ingredients', function(request, response){
   ingredientInfo.type = 'Topping'
 
   db.createIngredient( ingredientInfo )
-  .then( result => { response.render('success', {message:'You Added an Ingredient!'})
+  .then( result => { response.render('success', {message:'You added an ingredient!'})
   })
   .catch( error => response.render('error', { error : error }));
 })

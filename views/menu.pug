@@ -2,12 +2,16 @@ extends layout
 
 block content
   h1.menu Pizza Store Menu
+    h2.menu Pizzas
     for pizza in pizzas
-      h3.menu=pizza.name
+      h4.menu=pizza.name
+    br
+    h2.menu Drinks
     for drink in drinks
-      h3.menu=drink.name
-      h4.menu=drink.price
-    for ingredient in ingredients
-      h3.menu=ingredient.name
-      h4.menu=ingredient.price
+      h4.menu=drink.name
+      p.menu=drink.price
+    br
+    a(href='/createpizza')
+      h2.menu Build Your Own
+    include partialmenu
 

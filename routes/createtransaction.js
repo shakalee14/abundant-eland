@@ -19,7 +19,7 @@ router.post('/', function(request,response){
     Promise.all([db.addPizzaToTransaction(transactionInfo, transaction_id), db.addDrinkToTransaction(transactionInfo, transaction_id)
     ])
     .then( data => {
-      response.render('success', {message:'your order is placed, it will be 32mins'})
+      response.render('success', {message:'Your order is placed :)'})
     })
   })
   .catch( error => response.render('error', { error : error }));

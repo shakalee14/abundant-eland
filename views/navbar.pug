@@ -1,11 +1,11 @@
-navbar.navbar
+navbar.navbar.navbarinfo
+  h1.logo.navbarinfo Pizza Store
   if signedIn
-    a.navbar(href='/api/logout') Logout
-    p.navbar You are signed in as
+    a.navbarinfo(href='/api/logout') Logout
   else
 
-    form(method='post' action='/api/login')
+    form.navbarinfo(method='post' action='/api/login')
       label Sign In?
-      input(type='text', placeholder='user name' name='user_name')
-      input(type='password', placeholder='password', name='password')
-      input(type='submit' value='login')
+      input.navbarspace(type='text', placeholder='user name' name='user_name')
+      input.navbarspace(type='password', placeholder='password', name='password')
+      input.navbarspace(type='submit' value='login')
