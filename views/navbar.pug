@@ -5,7 +5,9 @@ navbar.navbar.navbarinfo
   else
 
     form.navbarinfo(method='post' action='/api/login')
-      label Sign In?
+      label Sign In
       input.navbarspace(type='text', placeholder='user name' name='user_name')
       input.navbarspace(type='password', placeholder='password', name='password')
       input.navbarspace(type='submit' value='login')
+    a(href='/api')
+      p Create an account

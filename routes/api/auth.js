@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var db = require('../../database');
+var db = require('../../database/database_customers.js');
 var bcrypt = require('bcrypt-nodejs');
 
 router.get('/', function(request, response, next) {

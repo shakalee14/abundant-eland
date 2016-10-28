@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-var db = require('../../database');
+const express = require('express');
+const router = express.Router();
+const db = require('../../database/database_customers.js');
 
 router.get('/', function(request, response){
   db.getAllActiveCustomers()

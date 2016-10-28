@@ -1,9 +1,10 @@
 var express = require('express');
 var router = express.Router();
-var db = require('../database');
+var db_ingredients = require('../database/database_ingredients.js');
+var db_pizza = require('../database/database_pizzas.js');
 
 router.get('/', function(request, response){
-  db.getAllActiveIngredients()
+  db_ingredients.getAllActiveIngredients()
   .then( data => { response.render('newpizza', {
     title: 'Create a Pizza',
     data: data })
@@ -12,10 +13,10 @@ router.get('/', function(request, response){
 })
 
 router.post('/', function(request, response){
-  db.createMenuPizza( request.body )
+  db_pizza.createMenuPizza( request.body )
   .then( result => {
     const pizza_id = result.id;
-    Promise.all([db.addToPizzaIngredients(pizza_id, request.body)])
+    Promise.all([db_pizza.addToPizzaIngredients(pizza_id, request.body)])
     .then(result => { response.render('success', {
       message:'You Created a Pizza' })
     })
@@ -31,7 +32,7 @@ router.post('/ingredients', function(request, response){
   const ingredientInfo = request.body
   ingredientInfo.type = 'Topping'
 
-  db.createIngredient( ingredientInfo )
+  db_ingredients.createIngredient( ingredientInfo )
   .then( result => { response.render('success', {message:'You added an ingredient!'})
   })
   .catch( error => response.render('error', { error : error }));
