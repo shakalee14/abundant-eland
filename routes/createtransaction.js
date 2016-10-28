@@ -1,8 +1,8 @@
-var express = require('express');
-var router = express.Router();
-var db = require('../database/menu.js');
-var db_transaction = require('../database/database_transactions.js')
-var db_customers = require('../database/database_customers.js')
+const express = require('express');
+const router = express.Router();
+const db = require('../database/menu.js');
+const db_transaction = require('../database/database_transactions.js')
+const db_customers = require('../database/database_customers.js')
 
 router.get('/', function(request, response){
   Promise.all([ db.getMenuPizzas(), db.getAllActiveDrinks(), db_customers.getAllCustomers() ])
