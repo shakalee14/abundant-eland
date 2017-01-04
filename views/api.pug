@@ -6,6 +6,226 @@ block content
   if signedIn
     h2 Welcome to the Pizza Store API
     h3 End Points
+    table(border='1')
+      tr
+        th Action
+        th CRUD
+        th HTTP Verb
+        th Path
+        th Inputs from Body
+      tr
+        td Register user
+        td Create
+        td POST
+        td /api/Register
+        td user_name, name, password, address, phone_number, payment_method
+      tr
+        td Login
+        td Create
+        td POST
+        td /api/login
+        td user_name
+      tr
+        td Logout
+        td Read
+        td GET
+        td /api/logout
+        td
+      tr
+        td Get all active customers
+        td Read
+        td GET
+        td /api/customers
+        td
+      tr
+        td Get all customers
+        td Read
+        td GET
+        td /api/customers/all
+        td
+      tr
+        td Get customers by ID
+        td Read
+        td GET
+        td /api/customers/:id
+        td
+      tr
+        td Delete customer by ID
+        td Update
+        td PUT
+        td /api/customers/:id/delete
+        td
+      tr
+        td Update customer by ID
+        td Update
+        td PUT
+        td /api/customers/:id
+        td
+      tr
+        td List customer pizza preferences by ID
+        td Read
+        td GET
+        td /api/customers/:id/preferences
+        td
+      tr
+        td Add pizza preference to customer by ID
+        td Create
+        td POST
+        td /api/customers/:cid/:pid
+        td :cid is customer ID, :pid is pizza ID
+      tr
+        td Delete pizza preference to customer by ID
+        td Delete
+        td DELETE
+        td /api/customers/:cid/:pid
+        td :cid is customer ID, :pid is pizza ID
+      tr
+        td List all available drinks
+        td Read
+        td GET
+        td /api/drinks
+        td
+      tr
+        td List all drinks
+        td Read
+        td GET
+        td /api/drinks/all
+        td
+      tr
+        td List drink info by ID
+        td Read
+        td GET
+        td /api/drinks/:id
+        td
+      tr
+        td Update drink info by ID
+        td Update
+        td PUT
+        td /api/drinks/:id
+        td name, description, manufacturer, supplier, price
+      tr
+        td Create new drink item
+        td Create
+        td POST
+        td /api/drinks
+        td name, description, manufacturer, supplier, price
+      tr
+        td Delete drink info by ID
+        td Update
+        td PUT
+        td /api/drinks/:id/delete
+        td
+      tr
+        td List all available ingredients
+        td Read
+        td GET
+        td /api/ingredients
+        td
+      tr
+        td List all ingredients
+        td Read
+        td GET
+        td /api/ingredients/all
+        td
+      tr
+        td List ingredients by ID
+        td Read
+        td GET
+        td /api/ingredients/:id
+        td
+      tr
+        td Create new ingredient
+        td Create
+        td POST
+        td /api/ingredients/
+        td name, description, type, price
+      tr
+        td Update ingredient by ID
+        td Update
+        td PUT
+        td /api/ingredients/:id
+        td name, description, type, price
+      tr
+        td Delete ingredient by ID
+        td Update
+        td PUT
+        td /api/ingredients/:id
+        td
+      tr
+        td List all pizzas
+        td Read
+        td GET
+        td /api/pizzas
+        td
+      tr
+        td List all menu item pizzas
+        td Read
+        td GET
+        td /api/pizzas/menu
+        td
+      tr
+        td List single pizza and ingredients
+        td Read
+        td GET
+        td /api/pizzas/:id
+        td
+      tr
+        td Update pizza ingredient
+        td Update
+        td PUT
+        td /api/pizzas/:id/ingredients
+        td name, new_ingredient_id, old_ingredient_id
+      tr
+        td Create new menu item pizza
+        td Create
+        td POST
+        td /api/pizzas
+        td name, ingredient1, ingredient2, ingredient3
+      tr
+        td Delete pizza from menu
+        td Update
+        td PUT
+        td /api/pizzas/:id/delete
+        td
+      tr
+        td List all transactions
+        td Read
+        td GET
+        td /api/transactions
+        td
+      tr
+        td Create new transaction
+        td Create
+        td POST
+        td /api/transactions/customers/:id
+        td price_total, pizza_id1, pizza_number, pizza_id2, pizza_number2, drink_id1, drink_number, drink_id2, drink_number2
+      tr
+        td Get Transaction details by ID
+        td Read
+        td GET
+        td /api/transactions/:id
+        td
+      tr
+        td List all transactions for a Customer
+        td Read
+        td GET
+        td /api/transactions/customers/:id
+        td
+      tr
+        td List most recent transaction for customer
+        td Read
+        td GET
+        td /api/transactions/customers/:id/recent
+        td
+      tr
+        td Cancel transaction
+        td Update
+        td PUT
+        td /api/transactions/:id/delete
+        td
+
+
+
 
 
   else

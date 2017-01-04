@@ -14,21 +14,6 @@ router.get('/', function(request, response){
   .catch( error => response.render('error', { error : error }));
 })
 
-router.put('/:id/ingredients', function(request, response){
-  const newPizzaInfo = request.body
-  newPizzaInfo.pizza_id = request.params.id
-
-  Promise.all([ db.updatePizzaIngredients(newPizzaInfo), db.updatePizza(newPizzaInfo) ])
-  .then( pizza => {
-    response.status(200).json({
-      status: 'success',
-      pizza: pizza,
-      message: 'Updated pizza ingredients and name'
-    })
-  })
-  .catch( error => response.render('error', { error : error }));
-})
-
 router.get('/menu', function(request, response){
   db.getMenuPizzas()
   .then( pizza => {
@@ -58,6 +43,22 @@ router.get('/:id', function(request, response){
   .catch( error => response.render('error', { error : error }));
 })
 
+router.put('/:id/ingredients', function(request, response){
+  const newPizzaInfo = request.body
+  newPizzaInfo.pizza_id = request.params.id
+
+  Promise.all([ db.updatePizzaIngredients(newPizzaInfo), db.updatePizza(newPizzaInfo) ])
+  .then( pizza => {
+    response.status(200).json({
+      status: 'success',
+      pizza: pizza,
+      message: 'Updated pizza ingredients and name'
+    })
+  })
+  .catch( error => response.render('error', { error : error }));
+})
+
+
 router.post('/', function(request, response){
   db.createMenuPizza( request.body )
   .then( result => {
@@ -71,9 +72,6 @@ router.post('/', function(request, response){
     })
   })
   .catch( error => response.render('error', { error : error }));
-})
-
-router.put('/:id', function(request, response){
 })
 
 router.put('/:id/delete', function(request, response){
